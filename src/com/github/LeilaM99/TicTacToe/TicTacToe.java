@@ -8,33 +8,33 @@ public class TicTacToe {
 
     public TicTacToe() {
         board = new char[3][3];
-        currentPlayer = 'X'; // Starting player
+        currentPlayer = 'X';
         initializeBoard();
     }
 
-    private void initializeBoard() {
+    public void initializeBoard(TicTacToe this) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                board[i][j] = '?';
+                this.board[i][j] = '?';
             }
         }
     }
 
-    public void printBoard() {
+    public void printBoard(TicTacToe this) {
         System.out.println("Current board:");
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                System.out.print(board[i][j] + "    ");
+                System.out.print(this.board[i][j] + "    ");
             }
             System.out.println();
             System.out.println();
         }
     }
 
-    public boolean isBoardFull() {
+    public boolean isBoardFull(TicTacToe this) {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
-                if (board[i][j] == '?') {
+                if (this.board[i][j] == '?') {
                     return false;
                 }
             }
@@ -42,47 +42,46 @@ public class TicTacToe {
         return true;
     }
 
-    public boolean checkForWin() {
-        // Check rows, columns, and diagonals
+    public boolean checkForWin(TicTacToe this) {
         for (int i = 0; i < 3; i++) {
-            if (board[i][0] == currentPlayer && board[i][1] == currentPlayer && board[i][2] == currentPlayer) {
+            if (this.board[i][0] == this.currentPlayer && this.board[i][1] == this.currentPlayer && this.board[i][2] == this.currentPlayer) {
                 return true;
             }
-            if (board[0][i] == currentPlayer && board[1][i] == currentPlayer && board[2][i] == currentPlayer) {
+            if (this.board[0][i] == this.currentPlayer && this.board[1][i] == this.currentPlayer && this.board[2][i] == this.currentPlayer) {
                 return true;
             }
         }
-        if (board[0][0] == currentPlayer && board[1][1] == currentPlayer && board[2][2] == currentPlayer) {
+        if (this.board[0][0] == this.currentPlayer && this.board[1][1] == this.currentPlayer && this.board[2][2] == this.currentPlayer) {
             return true;
         }
-        if (board[0][2] == currentPlayer && board[1][1] == currentPlayer && board[2][0] == currentPlayer) {
+        if (this.board[0][2] == this.currentPlayer && this.board[1][1] == this.currentPlayer && this.board[2][0] == this.currentPlayer) {
             return true;
         }
         return false;
     }
 
-    public void changePlayer() {
-        if (currentPlayer == 'X') {
-            currentPlayer = 'O';
+    public void changePlayer(TicTacToe this) {
+        if (this.currentPlayer == 'X') {
+            this.currentPlayer = 'O';
         } else {
-            currentPlayer = 'X';
+            this.currentPlayer = 'X';
         }
     }
 
-    public void playGame() {
+    public void playGame(TicTacToe this) {
         Scanner scanner = new Scanner(System.in);
         while (true) {
             printBoard();
-            System.out.println("Player " + currentPlayer + ", enter your move (first row and then in next line enter column): ");
+            System.out.println("Player " + this.currentPlayer + ", enter your move between 0-3 (first row and then enter column in the next line): ");
             int row = scanner.nextInt();
             int col = scanner.nextInt();
 
-            if (row >= 0 && row < 3 && col >= 0 && col < 3 && board[row][col] == '-') {
-                board[row][col] = currentPlayer;
+            if (row >= 0 && row < 3 && col >= 0 && col < 3 && this.board[row][col] == '?') {
+                this.board[row][col] = this.currentPlayer;
 
                 if (checkForWin()) {
                     printBoard();
-                    System.out.println("Player " + currentPlayer + " wins!");
+                    System.out.println("Player " + this.currentPlayer + " wins!");
                     break;
                 } else if (isBoardFull()) {
                     printBoard();
@@ -92,10 +91,10 @@ public class TicTacToe {
 
                 changePlayer();
             } else {
-                System.out.println("This move is not valid. Try again.");
+                System.out.println("This move is Wrong. Try again please.");
             }
         }
-        scanner.close();
+
     }
 
 }
