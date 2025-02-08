@@ -1,8 +1,8 @@
 package com.github.LeilaM99.TicTacToe;
 
 public class Player {
-        private String name;
-        private char symbol;
+        String name;
+        char symbol;
 
         public Player(String name, char symbol) {
             this.name = name;
