@@ -3,99 +3,97 @@ import java.util.Scanner;
 
 public class TicTacToe {
 
-    char[][] board;
-    char currentPlayer;
+        char[][] board;
+        Player player1;
+        Player player2;
+        Player currentPlayer;
 
-    public TicTacToe() {
-        board = new char[3][3];
-        currentPlayer = 'X';
-        initializeBoard();
-    }
-
-    public void initializeBoard(TicTacToe this) {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                this.board[i][j] = '?';
-            }
+        public TicTacToe(Player player1, Player player2) {
+            this.board = new char[3][3];
+            this.player1 = player1;
+            this.player2 = player2;
+            this.currentPlayer = player1;
+            initializeBoard();
         }
-    }
 
-    public void printBoard(TicTacToe this) {
-        System.out.println("Current board:");
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                System.out.print(this.board[i][j] + "    ");
-            }
-            System.out.println();
-            System.out.println();
-        }
-    }
-
-    public boolean isBoardFull(TicTacToe this) {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (this.board[i][j] == '?') {
-                    return false;
+        private void initializeBoard() {
+            for (int i = 0; i < 3; i++) {
+                for (int j = 0; j < 3; j++) {
+                    board[i][j] = ' ';
                 }
             }
         }
-        return true;
-    }
 
-    public boolean checkForWin(TicTacToe this) {
-        for (int i = 0; i < 3; i++) {
-            if (this.board[i][0] == this.currentPlayer && this.board[i][1] == this.currentPlayer && this.board[i][2] == this.currentPlayer) {
-                return true;
-            }
-            if (this.board[0][i] == this.currentPlayer && this.board[1][i] == this.currentPlayer && this.board[2][i] == this.currentPlayer) {
-                return true;
-            }
-        }
-        if (this.board[0][0] == this.currentPlayer && this.board[1][1] == this.currentPlayer && this.board[2][2] == this.currentPlayer) {
-            return true;
-        }
-        if (this.board[0][2] == this.currentPlayer && this.board[1][1] == this.currentPlayer && this.board[2][0] == this.currentPlayer) {
-            return true;
-        }
-        return false;
-    }
-
-    public void changePlayer(TicTacToe this) {
-        if (this.currentPlayer == 'X') {
-            this.currentPlayer = 'O';
-        } else {
-            this.currentPlayer = 'X';
-        }
-    }
-
-    public void playGame(TicTacToe this) {
-        Scanner scanner = new Scanner(System.in);
-        while (true) {
-            printBoard();
-            System.out.println("Player " + this.currentPlayer + ", enter your move between 0-3 (first row and then enter column in the next line): ");
-            int row = scanner.nextInt();
-            int col = scanner.nextInt();
-
-            if (row >= 0 && row < 3 && col >= 0 && col < 3 && this.board[row][col] == '?') {
-                this.board[row][col] = this.currentPlayer;
-
-                if (checkForWin()) {
-                    printBoard();
-                    System.out.println("Player " + this.currentPlayer + " wins!");
-                    break;
-                } else if (isBoardFull()) {
-                    printBoard();
-                    System.out.println("The game is a draw!");
-                    break;
+        public void printBoard() {
+            System.out.println("Current Board:");
+            for (int i = 0; i < 3; i++) {
+                System.out.print("| ");
+                for (int j = 0; j < 3; j++) {
+                    System.out.print(board[i][j] + " | ");
                 }
+                System.out.println();
+            }
+            System.out.println();
+        }
 
-                changePlayer();
+        public boolean makeMove(int row, int col) {
+            if (row >= 0 && row < 3 && col >= 0 && col < 3 && board[row][col] == ' ') {
+                board[row][col] = currentPlayer.getSymbol();
+                return true;
+            }
+            return false;
+        }
+
+        public boolean checkWin() {
+            char symbol = currentPlayer.getSymbol();
+
+            for (int i = 0; i < 3; i++) {
+                if ((board[i][0] == symbol && board[i][1] == symbol && board[i][2] == symbol) ||
+                        (board[0][i] == symbol && board[1][i] == symbol && board[2][i] == symbol)) {
+                    return true;
+                }
+            }
+
+            if ((board[0][0] == symbol && board[1][1] == symbol && board[2][2] == symbol) ||
+                    (board[0][2] == symbol && board[1][1] == symbol && board[2][0] == symbol)) {
+                return true;
+            }
+            return false;
+        }
+
+        public void switchPlayer() {
+            if (currentPlayer == player1) {
+                currentPlayer = player2;
             } else {
-                System.out.println("This move is Wrong. Try again please.");
+                currentPlayer = player1;
             }
         }
 
-    }
+        public void playGame() {
+            Scanner scanner = new Scanner(System.in);
+            int moves = 0;
+
+            while (moves < 9) {
+                printBoard();
+                System.out.println(currentPlayer.getName() + ", it's your turn. Enter row and column (0, 1, or 2):");
+                int row = scanner.nextInt();
+                int col = scanner.nextInt();
+
+                if (makeMove(row, col)) {
+                    moves++;
+                    if (checkWin()) {
+                        printBoard();
+                        System.out.println(currentPlayer.getName() + " wins!");
+                        return;
+                    }
+                    switchPlayer();
+                } else {
+                    System.out.println("Invalid move. Try again.");
+                }
+            }
+            printBoard();
+            System.out.println("It's a draw!");
+        }
 
 }
 
