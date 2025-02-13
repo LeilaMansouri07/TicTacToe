@@ -3,10 +3,10 @@ import java.util.Scanner;
 
 public class TicTacToe {
 
-        char[][] board;
-        Player player1;
-        Player player2;
-        Player currentPlayer;
+        private char[][] board;
+        private Player player1;
+        private Player player2;
+        private Player currentPlayer;
 
         public TicTacToe(Player player1, Player player2) {
             this.board = new char[3][3];
