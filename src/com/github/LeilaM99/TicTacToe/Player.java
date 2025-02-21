@@ -1,19 +1,24 @@
 package com.github.LeilaM99.TicTacToe;
 
 public class Player {
-        String name;
-        char symbol;
 
-        public Player(String name, char symbol) {
-            this.name = name;
-            this.symbol = symbol;
-        }
+    private String name;
+    private char symbol;
 
-        public String getName() {
-            return name;
-        }
+    public Player(String name, char symbol) {
+        this.name = name;
+        this.symbol = symbol;
+    }
 
-        public char getSymbol() {
-            return symbol;
-        }
+    public Player() {
+
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public char getSymbol() {
+        return symbol;
+    }
 }
